@@ -4,8 +4,15 @@
   "description": "Puppeteer as a service",
   "private": true,
   "license": "MIT",
+  "script": {
+    "dev": "now dev",
+    "now": "now"
+  },
   "dependencies": {
     "chrome-aws-lambda": "1.11.1",
     "puppeteer-core": "1.11.0"
+  },
+  "devDependencies": {
+    "now": "^15.4.0"
   }
 }

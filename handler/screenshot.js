@@ -3,8 +3,11 @@ const { parseTarget, endWithCache, endWithError, getInt } = require('../util');
 const chromium = require('../chromium');
 
 const getScreenshot = async (targetURL, type, quality, fullPage) => {
-    const { browser, page } = await chromium.visit(targetURL)
-    
+    const { browser, page, err } = await chromium.visit(targetURL)
+    if (err) {
+        return { err }
+    }
+
     if (fullPage === undefined) {
         fullPage = true
     }
@@ -23,7 +26,11 @@ module.exports = async function (req, res) {
     try {
         const { type = 'jpeg', quality, fullPage } = puppetQuery;
 
-        const file = await getScreenshot(target, type, getInt(quality), fullPage);
+        const { file, err } = await getScreenshot(target, type, getInt(quality), fullPage);
+        if (err) {
+            return endWithError(res, err)
+        }
+
         console.log("[INFO] screenshot completed:", target);
 
         return endWithCache(res, 200, `image/${type}`, file)

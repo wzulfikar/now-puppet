@@ -28,12 +28,20 @@ const visit = async (targetURL) => {
     const browser = await puppeteer.launch(puppeteerArgs)
     const page = await browser.newPage();
 
+    let err
     await page.goto(targetURL, {
         timeout: 30 * 1000, 
         waitUntil: "networkidle0"
+    }).catch((e) => {
+        err = {
+            code: 500,
+            type: '500 internal error',
+            message: e.message
+        }
+        console.log(`[ERROR] puppeteer.goto(${targetURL}):`, e)
     });
 
-    return { browser, page }
+    return { browser, page, err }
 }
 
 module.exports = {

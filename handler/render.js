@@ -27,7 +27,7 @@ module.exports = async function (req, res) {
         console.log("[INFO] render completed:", target);
         return endWithCache(res, 200, 'text/html', html);
     } catch (e) {
-        console.log("[ERROR] handler/render.js:", e);
+        console.log(`[ERROR] handler/render.js (${target}):`, e);
         return endWithError(res, {
             message: `screenshot failed for target '${target}'.`,
         })

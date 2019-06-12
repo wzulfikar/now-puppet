@@ -9,3 +9,7 @@ Demo: https://puppet.wzulfikar.now.sh
 3. Deploy to now.sh: `yarn now`
 
 When running locally, make sure you copied `.env.sample` to `.env` and adjust the env vars listed there accordingly.
+
+### Limitations
+
+- 6mb invocation payload ([aws lambda limit](https://docs.aws.amazon.com/lambda/latest/dg/limits.html))

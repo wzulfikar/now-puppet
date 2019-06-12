@@ -28,7 +28,7 @@ module.exports = async function (req, res) {
 
         return endWithCache(res, 200, `image/${type}`, file)
     } catch (e) {
-        console.log("[ERROR] handler/screenshot.js:", e);
+        console.log("[ERROR] handler/screenshot.js (${target}):", e);
         return endWithError(res, {
             message: `screenshot failed for target '${target}'.`,
         })

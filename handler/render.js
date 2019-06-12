@@ -19,15 +19,15 @@ const render = async (targetURL) => {
 }
 
 module.exports = async function (req, res) {
-    const { target, err } = parseTarget(req)
-    if (err) {
-        return endWithError(res, err)
+    const { target, err: targetErr } = parseTarget(req)
+    if (targetErr) {
+        return endWithError(res, targetErr)
     }
     
     try {
-        const { html, err } = await render(target);
-        if (err) {
-            return endWithError(res, err)
+        const { html, err: handlerErr } = await render(target);
+        if (handlerErr) {
+            return endWithError(res, handlerErr)
         }
 
         console.log("[INFO] render completed:", target);

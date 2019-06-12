@@ -14,13 +14,13 @@ const getScreenshot = async (targetURL, type, quality, fullPage) => {
 
     const file = await page.screenshot({ type,  quality, fullPage });
     await browser.close();
-    return file;
+    return { file };
 }
 
 module.exports = async function (req, res) {
-    let { target, puppetQuery = {}, err} = parseTarget(req)
-    if (err) {
-        return endWithError(res, err)
+    let { target, puppetQuery = {}, err: targetErr} = parseTarget(req)
+    if (targetErr) {
+        return endWithError(res, targetErr)
     }
 
     try {
@@ -31,9 +31,9 @@ module.exports = async function (req, res) {
             type = 'jpeg'
         }
 
-        const { file, err } = await getScreenshot(target, type, quality, fullPage);
-        if (err) {
-            return endWithError(res, err)
+        const { file, err: handlerErr } = await getScreenshot(target, type, quality, fullPage);
+        if (handlerErr) {
+            return endWithError(res, handlerErr)
         }
 
         console.log("[INFO] screenshot completed:", target);

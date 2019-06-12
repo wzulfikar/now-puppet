@@ -1,31 +1,36 @@
 const { parse, URL } = require('url')
 const qs = require('querystring')
 
+const PUPPET_QUERY_PREFIX = '_pq_'
+
 function getInt(str) {
     return /[0-9]+/.test(str) ? parseInt(str) : undefined;
 }
 
 // remove internal params from target url
-const _stripQuery = (targetURL, prefix = '_ssr_') => {
+const _stripQuery = (targetURL) => {
     let { protocol, host, query } = parse(targetURL, true)
 
     // extract ssr query from target url
-    let ssrQuery = {}
+    let puppetQuery = {}
     Object.keys(query).forEach(k => {
-        if (k.startsWith(prefix)) {
-            ssrQuery[query[k].replace(prefix, '')] = query[k]
+        if (k.startsWith(PUPPET_QUERY_PREFIX)) {
+            const key = k.replace(PUPPET_QUERY_PREFIX, '')
+            puppetQuery[key] = query[k]
             delete query[k]
         }
     })
     
     const newQuery = qs.stringify(query)
     if (newQuery.length) {
-        return `${protocol}//${host}?${newQuery}`
+        sanitizedTarget = `${protocol}//${host}?${newQuery}`
+    } else {
+        sanitizedTarget = `${protocol}//${host}`
     }
 
     return {
-        ssrQuery,
-        sanitizedTarget: `${protocol}//${host}`,
+        puppetQuery,
+        sanitizedTarget,
     }
 }
 
@@ -75,7 +80,7 @@ const parseTarget = (req) => {
         }
     }
 
-    const { sanitizedTarget, ssrQuery } = _stripQuery(target)
+    const { sanitizedTarget, puppetQuery } = _stripQuery(target)
 
     // validate target url
     if (!parse(sanitizedTarget).hostname) {
@@ -88,8 +93,13 @@ const parseTarget = (req) => {
         }
     }
 
-    console.log(`[INFO] target parsed for handler '${handler}':`, target)
-    return { target: sanitizedTarget, ssrQuery }
+    console.log(
+        `[INFO] target parsed for handler '${handler}': ${target}`,
+        "\n",
+        `puppetQuery ('${PUPPET_QUERY_PREFIX}' prefix):`, puppetQuery
+    )
+
+    return { target: sanitizedTarget, puppetQuery }
 }
 
 const endWithError = (res, err = {}) => {

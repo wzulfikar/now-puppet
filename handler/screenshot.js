@@ -15,16 +15,15 @@ const getScreenshot = async (targetURL, type, quality, fullPage) => {
 }
 
 module.exports = async function (req, res) {
-    let { target, ssrQuery = {}, err} = parseTarget(req)
+    let { target, puppetQuery = {}, err} = parseTarget(req)
     if (err) {
         return endWithError(res, err)
     }
 
     try {
-        const { type = 'png', quality, fullPage } = ssrQuery;
-        const qual = getInt(quality);
+        const { type = 'png', quality, fullPage } = puppetQuery;
 
-        const file = await getScreenshot(target, type, qual, fullPage);
+        const file = await getScreenshot(target, type, getInt(quality), fullPage);
         console.log("[INFO] screenshot completed:", target);
 
         return endWithCache(res, 200, `image/${type}`, file)

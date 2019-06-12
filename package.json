@@ -4,7 +4,7 @@
   "description": "Puppeteer as a service",
   "private": true,
   "license": "MIT",
-  "script": {
+  "scripts": {
     "dev": "now dev",
     "now": "now"
   },

@@ -21,7 +21,7 @@ module.exports = async function (req, res) {
     }
 
     try {
-        const { type = 'png', quality, fullPage } = puppetQuery;
+        const { type = 'jpeg', quality, fullPage } = puppetQuery;
 
         const file = await getScreenshot(target, type, getInt(quality), fullPage);
         console.log("[INFO] screenshot completed:", target);

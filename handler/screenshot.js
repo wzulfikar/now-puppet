@@ -24,9 +24,14 @@ module.exports = async function (req, res) {
     }
 
     try {
-        const { type = 'jpeg', quality, fullPage } = puppetQuery;
+        let { type = 'png', quality, fullPage } = puppetQuery;
 
-        const { file, err } = await getScreenshot(target, type, getInt(quality), fullPage);
+        quality = getInt(quality)
+        if (quality) {
+            type = 'jpeg'
+        }
+
+        const { file, err } = await getScreenshot(target, type, quality, fullPage);
         if (err) {
             return endWithError(res, err)
         }

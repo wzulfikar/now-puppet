@@ -1,0 +1,19 @@
+{
+    "name": "puppet",
+    "version": 2,
+    "public": true,
+    "env": {
+        "BASE_URL": "",
+        "PUPPETEER_EXECUTABLE_PATH": ""
+    },
+    "builds": [
+        { "src": "public/*", "use": "@now/static" },
+        { "src": "/handler/*.js", "use": "@now/node", "config": { "maxLambdaSize": "50mb" } }
+    ],
+    "routes": [
+        { "src": "/", "dest": "/public/index.html" },
+        { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
+        { "src": "/screenshot/(.+)", "dest": "/handler/screenshot.js" },
+        { "src": "/render/(.+)", "dest": "/handler/render.js" }
+    ]
+}

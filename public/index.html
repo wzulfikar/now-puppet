@@ -1,0 +1,65 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Prerender & Screenshot as a service</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <style>
+
+      body {
+        font-family: "SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif;
+        margin: 20px;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+
+      a {
+        cursor: pointer;
+        color: #0076FF;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid white;
+      }
+
+      a:hover {
+        border-bottom: 1px solid #0076FF;
+      }
+
+      ul {
+        padding: 0;
+        list-style-type: none;
+        margin-left: 15px;
+      }
+
+      li {
+        margin-bottom: 10px;
+      }
+
+      li:before {
+        content: '–';
+        display: inline-block;
+        color: #999;
+        position: absolute;
+        margin-left: -15px;
+        transition: color 0.2s ease;
+      }
+    </style>
+    <body>
+        <div class="container">
+          <div class="wrapper">
+            <h1>Prerender & Screenshot as a service</h1>
+            <p>Please provide url to a website or try one of the following:</p>
+            <ul>
+                <li><a href="/render/https://google.com">render google.com</a></li>
+                <li><a href="/screenshot/https://google.com">screenshot google.com (png)</a></li>
+                <li><a href="/screenshot/https://google.com?type=jpeg&quality=75">screenshot google.com (jpeg)</a></li>
+            </ul>
+          </div>
+        </div>
+    </body>
+</html>

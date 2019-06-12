@@ -1,0 +1,11 @@
+{
+  "name": "now-puppet",
+  "version": "1.0.0",
+  "description": "Puppeteer as a service",
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "chrome-aws-lambda": "1.11.1",
+    "puppeteer-core": "1.11.0"
+  }
+}

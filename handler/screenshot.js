@@ -28,6 +28,15 @@ module.exports = async function (req, res) {
 
         quality = getInt(quality)
         if (quality) {
+            if (quality < 0 || 100 < quality) {
+                return endWithError(res, {
+                    code: 400,
+                    type: '400 bad request',
+                    message: `quality must be between 0 and 100 (inclusive). got ${quality} instead.`,
+                })
+            }
+
+            // image type must be jpeg when quality is specified
             type = 'jpeg'
         }
 

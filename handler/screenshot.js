@@ -40,6 +40,7 @@ module.exports = async function (req, res) {
     } catch (e) {
         return endWithError(res, {
             message: `screenshot failed for target '${target}'.`,
-        }, e)
+            errorObject: e,
+        })
     }
 };

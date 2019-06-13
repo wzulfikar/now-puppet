@@ -1,6 +1,6 @@
 const { parse } = require('url');
-const { parseTarget, endWithCache, endWithError, getInt } = require('../util');
-const chromium = require('../chromium');
+const { parseTarget, endWithCache, endWithError, getInt } = require('../lib/util')('screenshot');
+const chromium = require('../lib/chromium');
 
 const getScreenshot = async (targetURL, type, quality, fullPage) => {
     const { browser, page, err } = await chromium.visit(targetURL)
@@ -36,13 +36,10 @@ module.exports = async function (req, res) {
             return endWithError(res, handlerErr)
         }
 
-        console.log("[INFO] screenshot completed:", target);
-
         return endWithCache(res, 200, `image/${type}`, file)
     } catch (e) {
-        console.log("[ERROR] handler/screenshot.js (${target}):", e);
         return endWithError(res, {
             message: `screenshot failed for target '${target}'.`,
-        })
+        }, e)
     }
 };
